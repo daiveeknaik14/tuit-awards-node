@@ -26,14 +26,16 @@ export default class TuitController implements TuitControllerInterface {
         this.tuitDao.findTuitById(req.params.tid)
             .then(tuit => res.json(tuit));
 
-    findTuitsByUser = (req: Request, res: Response) =>
+    findTuitsByUser = (req: Request, res: Response) =>{
+        console.log(req.params.uid)
         this.tuitDao.findTuitsByUser(req.params.uid)
             .then(tuit => res.json(tuit));
+    }
 
     createTuit = (req: Request, res: Response) => {
         this.tuitDao.createTuit(req.body)
             .then(tuit => res.json(tuit));
-        }
+    }
 
     deleteTuit = (req: Request, res: Response) =>
         this.tuitDao.deleteTuit(req.params.tid)
