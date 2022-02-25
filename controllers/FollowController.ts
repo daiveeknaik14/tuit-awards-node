@@ -75,7 +75,7 @@
       * database
       */
      userFollowsUser = (req: Request, res: Response) =>
-         FollowController.followDao.userFollowUser(req.params.uid0, req.params.uid1)
+         FollowController.followDao.userFollowsUser(req.params.uidFollowing, req.params.uidFollowed)
              .then(follows => res.json(follows));
  
      /**
@@ -86,6 +86,6 @@
       * on whether deleting the follow was successful or not
       */
      userUnfollowsUser = (req: Request, res: Response) =>
-         FollowController.followDao.userUnfollowUser(req.params.uid0, req.params.uid1)
+         FollowController.followDao.userUnfollowsUser(req.params.uidFollowing, req.params.uidFollowed)
              .then(status => res.send(status));
  };

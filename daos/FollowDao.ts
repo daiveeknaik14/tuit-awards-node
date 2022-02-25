@@ -56,7 +56,7 @@
       * @param {string} uidFollowed Followed User's primary key
       * @returns Promise to be notified when users are inserted into the database
       */
-     userFollowUser = async (uidFollowing: string, uidFollowed: string): Promise<any> =>
+     userFollowsUser = async (uidFollowing: string, uidFollowed: string): Promise<any> =>
          FollowModel.create({userFollowing: uidFollowing, userFollowed: uidFollowed});
  
      /**
@@ -65,6 +65,6 @@
       * @param uidFollowed Followed User's primary key
       * @returns Promise to be notified when users are removed from the database 
       */
-     userUnfollowUser = async (uidFollowing: string, uidFollowed: string): Promise<any> =>
+     userUnfollowsUser = async (uidFollowing: string, uidFollowed: string): Promise<any> =>
          FollowModel.deleteOne({userFollowing: uidFollowing, userFollowed: uidFollowed});
  }
