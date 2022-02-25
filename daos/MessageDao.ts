@@ -49,8 +49,8 @@
       * @param {string} message content of the message body
       * @returns 
       */
-     userMessagesUser = async (uidReciever: string, uidSender: string, message: Message): Promise<any> =>
-         MessageModel.create({...message, to: uidReciever, from: uidSender, sentOn: Date.now()});
+     userMessagesUser = async (uidReceiver: string, uidSender: string, message: Message): Promise<any> =>
+         MessageModel.create({...message, to: uidReceiver, from: uidSender, sentOn: Date.now()});
  
      /**
       * Removes message from the database for the user
