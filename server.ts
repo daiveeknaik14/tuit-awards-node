@@ -10,7 +10,7 @@
  * Connects to a remote MongoDB instance hosted on the Atlas cloud database
  * service
  */
-import express, {Request, Response} from 'express';
+import express,{Request, Response} from 'express';
 import CourseController from "./controllers/CourseController";
 import UserController from "./controllers/UserController";
 import TuitController from "./controllers/TuitController";
@@ -19,6 +19,7 @@ import mongoose from "mongoose";
 import FollowController from './controllers/FollowController';
 import BookmarkController from './controllers/BookmarkController';
 import MessageController from './controllers/MessageController';
+import cors from "cors";
 
 // build the connection string
 const PROTOCOL = "mongodb+srv";
@@ -33,6 +34,8 @@ mongoose.connect(connectionString);
 
 const app = express();
 app.use(express.json());
+
+app.use(cors());
 
 app.get('/', (req: Request, res: Response) =>
     res.send('Welcome!'));
