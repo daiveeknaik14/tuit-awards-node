@@ -19,7 +19,8 @@ import mongoose from "mongoose";
 import FollowController from './controllers/FollowController';
 import BookmarkController from './controllers/BookmarkController';
 import MessageController from './controllers/MessageController';
-import cors from "cors";
+
+var cors = require('cors')
 
 // build the connection string
 const PROTOCOL = "mongodb+srv";
@@ -34,6 +35,7 @@ mongoose.connect(connectionString);
 
 const app = express();
 app.use(express.json());
+app.use(cors());
 
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");

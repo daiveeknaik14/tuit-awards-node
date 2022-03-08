@@ -3,3 +3,7 @@ node_modules
 build
 data
 out
+<<<<<<< HEAD
+=======
+coverage
+>>>>>>> B/a3
