@@ -15,12 +15,15 @@ import CourseController from "./controllers/CourseController";
 import UserController from "./controllers/UserController";
 import TuitController from "./controllers/TuitController";
 import LikeController from "./controllers/LikeController";
-import mongoose from "mongoose";
 import FollowController from './controllers/FollowController';
 import BookmarkController from './controllers/BookmarkController';
 import MessageController from './controllers/MessageController';
-
-var cors = require('cors')
+import SessionController from "./controllers/SessionController";
+import AuthenticationController from "./controllers/AuthenticationController";
+import mongoose from "mongoose";
+import GroupController from "./controllers/GroupController";
+const cors = require("cors");
+const session = require("express-session");
 
 // build the connection string
 const PROTOCOL = "mongodb+srv";
@@ -35,7 +38,27 @@ mongoose.connect(connectionString);
 
 const app = express();
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+    credentials: true,
+    origin: 'http://localhost:3000'
+}));
+
+const SECRET = 'process.env.SECRET';
+let sess = {
+    secret: SECRET,
+    saveUninitialized: true,
+    resave: true,
+    cookie: {
+        secure: false
+    }
+}
+
+if (process.env.ENVIRONMENT === 'PRODUCTION') {
+    app.set('trust proxy', 1) // trust first proxy
+    sess.cookie.secure = true // serve secure cookies
+}
+
+app.use(session(sess))
 
 
 app.get('/', (req: Request, res: Response) =>
@@ -53,6 +76,9 @@ const followController = FollowController.getInstance(app);
 const bookmarkController = BookmarkController.getInstance(app);
 const messageController = MessageController.getInstance(app);
 
+SessionController(app);
+AuthenticationController(app);
+GroupController(app);
 /**
  * Start a server listening at port 4000 locally
  * but use environment variable PORT on Heroku if available.
