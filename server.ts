@@ -23,7 +23,6 @@ import AuthenticationController from "./controllers/AuthenticationController";
 import mongoose from "mongoose";
 import GroupController from "./controllers/GroupController";
 const cors = require("cors");
-const session = require("express-session");
 
 // build the connection string
 const PROTOCOL = "mongodb+srv";
@@ -44,19 +43,20 @@ app.use(cors({
 }));
 
 const SECRET = 'process.env.SECRET';
+const session = require("express-session");
+
 let sess = {
-    secret: SECRET,
-    saveUninitialized: true,
-    resave: true,
-    cookie: {
-        secure: false
-    }
+   secret: process.env.SECRET,
+   cookie: {
+       secure: false
+   }
 }
 
-if (process.env.ENVIRONMENT === 'PRODUCTION') {
-    app.set('trust proxy', 1) // trust first proxy
-    sess.cookie.secure = true // serve secure cookies
+if (process.env.ENV === 'PRODUCTION') {
+   app.set('trust proxy', 1) // trust first proxy
+   sess.cookie.secure = true // serve secure cookies
 }
+
 
 app.use(session(sess))
 
