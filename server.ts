@@ -46,7 +46,7 @@ const SECRET = 'process.env.SECRET';
 const session = require("express-session");
 
 let sess = {
-   secret: process.env.SECRET,
+   secret: SECRET,
    cookie: {
        secure: false
    }
