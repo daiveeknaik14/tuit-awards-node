@@ -96,8 +96,6 @@ export default class TuitController implements TuitControllerI {
         let userId = req.params.uid === "my" && req.session['profile'] ?
             // @ts-ignore
             req.session['profile']._id : req.params.uid;
-
-        console.log(userId);
         
         TuitController.tuitDao.createTuitByUser(userId, req.body)
             .then((tuit: Tuit) => res.json(tuit));
@@ -121,5 +119,13 @@ export default class TuitController implements TuitControllerI {
      */
     deleteTuit = (req: Request, res: Response) =>
         TuitController.tuitDao.deleteTuit(req.params.uid)
+            .then((status) => res.send(status));
+
+    deleteTuitByContent = (req: Request, res: Response) =>
+        TuitController.tuitDao.deleteTuitByContent(req.params.content)
+            .then((status) => res.send(status));
+    
+    deleteAllTuit = (req: Request, res: Response) =>
+        TuitController.tuitDao.deleteAllTuit()
             .then((status) => res.send(status));
 };

@@ -35,15 +35,29 @@ export default class TuitDao implements TuitDaoI{
             .exec();
     createTuitByUser = async (uid: string, tuit: Tuit): Promise<Tuit> =>
         TuitModel.create({...tuit, postedBy: uid});
-    updateTuit = async (tid: string, tuit: Tuit): Promise<any> =>
-        TuitModel.updateOne(
-            {_id: tid},
-            {$set: tuit});
+    /**
+      * @param {String} uid user id
+      * @param {Tuit} tuit tuit json body
+      */
+     updateTuit = async (uid: string, tuit: Tuit): Promise<any> =>
+         TuitModel.updateOne(
+             {_id: uid},
+             {$set: tuit});
+     /**
+      * @param {String} uid user id
+      */
+     deleteTuit = async (uid: string): Promise<any> =>
+         TuitModel.deleteOne({_id: uid});
+    
+    deleteTuitByContent = async (content: string): Promise<any> =>
+        TuitModel.deleteMany({tuit: content});
+    
+    deleteAllTuit = async (): Promise<any> =>
+        TuitModel.deleteMany({});
+
     updateLikes = async (tid: string, newStats: any): Promise<any> =>
         TuitModel.updateOne(
             {_id: tid},
             {$set: {stats: newStats}}
-        );
-    deleteTuit = async (uid: string): Promise<any> =>
-        TuitModel.deleteOne({_id: uid});
+    );
 }
