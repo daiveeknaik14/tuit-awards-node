@@ -39,7 +39,7 @@ mongoose.connect(connectionString);
 const app = express();
 app.use(cors({
     credentials: true,
-    origin: 'http://10.0.0.163:3000'
+    origin: 'http://76.19.197.10:3000'
 }));
 
 const SECRET = 'process.env.SECRET';
