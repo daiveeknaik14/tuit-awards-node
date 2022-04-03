@@ -21,6 +21,7 @@ const AuthenticationController = (app: Express) => {
             // @ts-ignore
             req.session['profile'] = existingUser;
             res.json(existingUser);
+            console.log(req)
         } else {
             res.sendStatus(403);
         }
