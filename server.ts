@@ -10,6 +10,7 @@
  * Connects to a remote MongoDB instance hosted on the Atlas cloud database
  * service
  */
+import dotenv from "dotenv";
 import express,{Request, Response} from 'express';
 import CourseController from "./controllers/CourseController";
 import UserController from "./controllers/UserController";
@@ -36,7 +37,7 @@ const DB_QUERY = "retryWrites=true&w=majority";
 const connectionString = "mongodb+srv://daiveeknaik:daiveek@cluster0.cphi1.mongodb.net/a4?retryWrites=true&w=majority";
 // connect to the database
 mongoose.connect(connectionString);
-
+dotenv.config();
 const app = express();
 app.use(cors({
     credentials: true,
