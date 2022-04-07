@@ -97,4 +97,10 @@ export default class UserDao implements UserDaoI {
     
     findUserByCredentials = async (username: string, password: string): Promise<any> =>
         UserModel.findOne({username: username, password: password});
+
+    updateCoins = async (uid: string, coinNum: number): Promise<any> =>
+        UserModel.updateOne(
+            {uid},
+            {$set: {coins: coinNum}});
+
 };
