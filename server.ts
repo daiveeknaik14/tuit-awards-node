@@ -33,14 +33,15 @@ const DB_PASSWORD = process.env.DB_PASSWORD;
 const HOST = "cluster0.m8jeh.mongodb.net";
 const DB_NAME = "myFirstDatabase";
 const DB_QUERY = "retryWrites=true&w=majority";
-const connectionString = "mongodb+srv://daiveeknaik:daiveek@cluster0.cphi1.mongodb.net/a4?retryWrites=true&w=majority";
+const connectionString = "mongodb+srv://daiveeknaik:daiveek@cluster0.cphi1.mongodb.net/tuit-awards?retryWrites=true&w=majority";
 // connect to the database
 mongoose.connect(connectionString);
 
 const app = express();
 app.use(cors({
     credentials: true,
-    origin: 'https://marvelous-queijadas-1e4cda.netlify.app'
+    //origin: 'https://marvelous-queijadas-1e4cda.netlify.app'
+    origin: 'http://localhost:3000'
 }));
 
 const SECRET = 'process.env.SECRET';

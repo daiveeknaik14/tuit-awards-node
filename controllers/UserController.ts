@@ -57,6 +57,10 @@ export default class UserController implements UserControllerI {
               UserController.userController.deleteUsersByUsername);
             app.get("/api/users/delete",
               UserController.userController.deleteAllUsers);
+
+            app.get("/api/users/:uid/coins", UserController.userController.getCoinsWithUser);
+            app.post("/api/users/:uid/increaseCoins/:coinNum", UserController.userController.increaseCoinsWithUser);
+            app.post("/api/users/:uid/decreaseCoins/:coinNum", UserController.userController.decreaseCoinsWithUser);
         }
         return UserController.userController;
     }
@@ -132,4 +136,51 @@ export default class UserController implements UserControllerI {
     deleteUsersByUsername = (req: Request, res: Response) =>
       UserController.userDao.deleteUsersByUsername(req.params.username)
         .then(status => res.send(status));
+
+    getCoinsWithUser = (req: Request, res: Response) =>
+            UserController.userDao.findUserById(req.params.uid).then((user: User) => res.json(user.coins));
+
+    increaseCoinsWithUser = async (req: Request, res: Response) => {
+        const userDao = UserController.userDao;
+        // const tuitDao = DislikeController.tuitDao;
+        const uid = req.params.uid;
+        const numberOfCoins: number = Number(req.params.coinNum);
+        // @ts-ignore
+        const profile = req.session['profile'];
+        const userId = uid === "my" && profile ?
+            profile._id : uid;
+        try {
+            const user = await userDao.findUserById(uid);
+            user.coins += numberOfCoins;
+            await userDao.updateCoins(userId, user.coins);
+            res.sendStatus(200);
+
+
+        } catch (e) {
+            res.sendStatus(403);
+        }
+    }
+
+    decreaseCoinsWithUser = async (req: Request, res: Response) => {
+        const userDao = UserController.userDao;
+        // const tuitDao = DislikeController.tuitDao;
+        const uid = req.params.uid;
+        const numberOfCoins: number = Number(req.params.coinNum);
+        // @ts-ignore
+        const profile = req.session['profile'];
+        const userId = uid === "my" && profile ?
+            profile._id : uid;
+        try {
+            const user = await userDao.findUserById(uid);
+            user.coins -= numberOfCoins;
+            await userDao.updateCoins(userId, user.coins);
+            res.sendStatus(200);
+
+
+        } catch (e) {
+            res.sendStatus(403);
+        }
+    }
+
+
 };
