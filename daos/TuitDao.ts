@@ -89,4 +89,7 @@
       */
      deleteTuit = async (uid: string): Promise<any> =>
          TuitModel.deleteOne({_id: uid});
+
+     UserAwardTuit = async (uid: string, aid: string): Promise<any> =>
+         TuitModel
  }

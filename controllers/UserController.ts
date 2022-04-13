@@ -150,7 +150,7 @@ export default class UserController implements UserControllerI {
         const userId = uid === "my" && profile ?
             profile._id : uid;
         try {
-            const user = await userDao.findUserById(uid);
+            const user = await userDao.findUserById(userId);
             user.coins += numberOfCoins;
             await userDao.updateCoins(userId, user.coins);
             res.sendStatus(200);
