@@ -23,6 +23,7 @@ import AuthenticationController from "./controllers/AuthenticationController";
 import mongoose from "mongoose";
 import GroupController from "./controllers/GroupController";
 import DislikeController from './controllers/DislikeController';
+import AwardsController from "./controllers/AwardsController";
 const cors = require("cors");
 const session = require("express-session");
 
@@ -76,6 +77,7 @@ const followController = FollowController.getInstance(app);
 const bookmarkController = BookmarkController.getInstance(app);
 const messageController = MessageController.getInstance(app);
 const dislikeController = DislikeController.getInstance(app);
+const awardsController = AwardsController.getInstance(app);
 SessionController(app);
 AuthenticationController(app);
 /**
