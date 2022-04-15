@@ -5,6 +5,9 @@ import {Express, Request, Response} from "express";
 import AwardDao from "../daos/AwardDao";
 import AwardControllerI from "../interfaces/AwardControllerI";
 import AwardsDao from "../daos/AwardsDao";
+import TuitController from "./TuitController";
+import TuitDao from "../daos/TuitDao";
+import LikeController from "./LikeController";
 
 /**
  * @class TuitController Implements RESTful Web service API for likes resource.
@@ -26,6 +29,7 @@ import AwardsDao from "../daos/AwardsDao";
 export default class AwardsController implements AwardControllerI {
     private static awardDao: AwardDao = AwardDao.getInstance();
     private static awardsDao: AwardsDao = AwardsDao.getInstance();
+    private static tuitDao: TuitDao = TuitDao.getInstance();
     private static awardsController: AwardsController | null = null;
     /**
      * Creates singleton controller instance
@@ -38,6 +42,7 @@ export default class AwardsController implements AwardControllerI {
             AwardsController.awardsController = new AwardsController();
             app.post("/api/users/:uid/tuits/:tid/:name", AwardsController.awardsController.awardTuitByUser);
             app.post("/api/users/:name/:coins", AwardsController.awardsController.createAward);
+            app.post("/api/tuits/:tid/mockaward", AwardsController.awardsController.increaseAwardsMock);
         }
         return AwardsController.awardsController;
     }
@@ -81,4 +86,20 @@ export default class AwardsController implements AwardControllerI {
             res.sendStatus(404);
         }
     }
+
+    increaseAwardsMock = async (req: Request, res: Response) => {
+        const tuitDao = AwardsController.tuitDao;
+        const tid = req.params.tid;
+        try {
+            let tuit = await tuitDao.findTuitById(tid);
+            const numberOfAwards = tuit.awards;
+            tuit.stats.awards += 1;
+            await tuitDao.updateLikes(tid,tuit.stats);
+            res.sendStatus(200);
+        } catch (e) {
+            res.sendStatus(404);
+        }
+
+    }
+
 };
