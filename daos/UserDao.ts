@@ -100,7 +100,7 @@ export default class UserDao implements UserDaoI {
 
     updateCoins = async (uid: string, coinNum: number): Promise<any> =>
         UserModel.updateOne(
-            {uid},
+            {_id: uid},
             {$set: {coins: coinNum}});
 
 };

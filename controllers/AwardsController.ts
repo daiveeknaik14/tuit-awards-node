@@ -43,11 +43,17 @@ export default class AwardsController implements AwardControllerI {
             app.post("/api/users/:uid/tuits/:tid/:name", AwardsController.awardsController.awardTuitByUser);
             app.post("/api/users/:name/:coins", AwardsController.awardsController.createAward);
             app.post("/api/tuits/:tid/mockaward", AwardsController.awardsController.increaseAwardsMock);
+            app.get("/api/awards",AwardsController.awardsController.findAllAwards);
         }
         return AwardsController.awardsController;
     }
 
     private constructor() {}
+
+
+    findAllAwards = (req: Request, res: Response) =>
+        AwardsController.awardDao.findAllAwards()
+            .then(awards => res.json(awards));
 
     createAward = async (req: Request, res: Response) => {
         const name = req.params.name;
