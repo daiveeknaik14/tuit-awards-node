@@ -43,6 +43,8 @@ export default class AwardsController implements AwardControllerI {
             app.post("/api/users/:uid/tuits/:tid/:name", AwardsController.awardsController.awardTuitByUser);
             app.post("/api/users/:name/:coins", AwardsController.awardsController.createAward);
             app.post("/api/tuits/:tid/mockaward", AwardsController.awardsController.increaseAwardsMock);
+            app.get("/api/awards/:tid", AwardsController.awardsController.getAwardsGivenToTuit);
+            app.get("/api/awardNames/:tid", AwardsController.awardsController.getAwardNameGivenToTuit);
             app.get("/api/awards",AwardsController.awardsController.findAllAwards);
         }
         return AwardsController.awardsController;
@@ -50,6 +52,19 @@ export default class AwardsController implements AwardControllerI {
 
     private constructor() {}
 
+    getAwardNameGivenToTuit = async (req: Request, res: Response) => {
+        const tid = req.params.tid;
+        try {
+            const awardsGivenToTuit = await AwardsController.awardsDao.getAwardsGivenToTuit(req.params.tid);
+        } catch (e) {
+            res.sendStatus(403);
+        }
+    }
+
+
+    getAwardsGivenToTuit = (req: Request, res: Response) =>
+        AwardsController.awardsDao.getAwardsGivenToTuit(req.params.tid)
+            .then(awards => res.json(awards));
 
     findAllAwards = (req: Request, res: Response) =>
         AwardsController.awardDao.findAllAwards()
@@ -87,6 +102,10 @@ export default class AwardsController implements AwardControllerI {
             console.log(awardid);
             console.log(coins);
             await AwardsController.awardsDao.awardTuitByUser(awardid, userId, tid);
+            let tuit = await AwardsController.tuitDao.findTuitById(tid);
+            // Tuit has an attribute awards. When this api hits, number of awards in tuits is incremented by 1.
+            tuit.stats.awards += 1;
+            await AwardsController.tuitDao.updateLikes(tid,tuit.stats);
             res.sendStatus(200);
         } catch (e) {
             res.sendStatus(404);

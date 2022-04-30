@@ -29,10 +29,13 @@ export default class AwardDao implements AwardDaoI {
        const res = await AwardModel.find({name: awardname});
        return res;
     }
+
     findAllAwards = async(): Promise<Award[]> => {
         const res = await AwardModel.find();
         return res;
     }
+
+
 
 
     createAward = async (name: string, coins: string): Promise<any> => {
