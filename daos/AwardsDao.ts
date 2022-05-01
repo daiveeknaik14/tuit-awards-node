@@ -25,4 +25,8 @@ export default class AwardsDao implements AwardsDaoI {
      */
     awardTuitByUser = async (aid: string, uid: string, tid: string): Promise<any> =>
         AwardsModel.create({givenBy: uid, givenTo: tid, awards: aid});
+
+
+    getAwardsGivenToTuit = async(tid: string): Promise<any> =>
+        AwardsModel.find({givenTo: tid}).populate("awards").exec();
 }
